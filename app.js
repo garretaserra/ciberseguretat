@@ -1,3 +1,4 @@
+'use strict';
 //Import libraries
 let express = require('express');
 let mongoose = require('mongoose');
