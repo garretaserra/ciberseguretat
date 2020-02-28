@@ -1,4 +1,4 @@
-# TS_Server_Boilerplate
+# Repository of Smart Cities: Cybersecurity
 
 To run the server:
-npm run tsc
+>node app.js
