@@ -1,5 +1,2 @@
 # Project exclude paths
-/controllers/testScripts.js
-/node_modules/
-/routes/test.js
-/app.js
+/node_modules/*
