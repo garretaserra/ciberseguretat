@@ -5,7 +5,7 @@ let router = express.Router();
 
 let messageScript = require('../controllers/messageScripts');
 
-router.get('', messageScript.sendMessage);
-router.post('', messageScript.sendMessage);
+router.get('', messageScript.sendMessageGet);
+router.post('', messageScript.sendMessagePost);
 
 module.exports = router;
