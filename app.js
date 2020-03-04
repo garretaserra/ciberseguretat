@@ -8,6 +8,7 @@ let errorHandler = require('errorhandler');
 
 //Import routes
 let testRouter = require('./routes/test');
+let messageRouter = require('./routes/message');
 
 //Server variable initialization
 let app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser());
 app.use(errorHandler());
 
 app.use('/test', testRouter);
+app.use('/message', messageRouter);
 
 
 //Make app listen on port 3000
