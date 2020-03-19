@@ -14,7 +14,8 @@
     "cors": "latest",
     "errorhandler": "latest",
     "express": "^4.17.1",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "my_rsa": "file:../RSA"
   },
   "devDependencies": {
     "@types/node": "^12.12.5"
