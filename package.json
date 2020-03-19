@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "A basic imlementation of express with NodeJS in Typescript with connections to MongoDB",
   "main": "app.js",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
