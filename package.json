@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bigint-conversion": "^2.1.1",
     "bigint-crypto-utils": "^2.4.7",
     "body-parser": "latest",
     "cors": "latest",
