@@ -20,7 +20,7 @@ app.use(errorHandler());
 
 app.use('/test', testRouter);
 app.use('/message', messageRouter);
-app.use('/bs'); //Blind signature
+app.use('/bs', blindSignatureRouter); //Blind signature
 
 
 //Make app listen on port 3000
