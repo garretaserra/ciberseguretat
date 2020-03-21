@@ -9,7 +9,7 @@ let myRsa = require('my_rsa');
 
 //Import routes
 let testRouter = require('./routes/test');
-let messageRouter = require('./routes/message');
+let generalRouter = require('./routes/general');
 let blindSignatureRouter = require('./routes/blindSignature');
 
 //Server variable initialization
@@ -18,8 +18,8 @@ app.use(cors());
 app.use(bodyParser());
 app.use(errorHandler());
 
+app.use('', generalRouter);
 app.use('/test', testRouter);
-app.use('/message', messageRouter);
 app.use('/bs', blindSignatureRouter); //Blind signature
 
 
