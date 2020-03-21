@@ -10,6 +10,7 @@ let myRsa = require('my_rsa');
 //Import routes
 let testRouter = require('./routes/test');
 let messageRouter = require('./routes/message');
+let blindSignatureRouter = require('./routes/blindSignature');
 
 //Server variable initialization
 let app = express();
@@ -19,6 +20,7 @@ app.use(errorHandler());
 
 app.use('/test', testRouter);
 app.use('/message', messageRouter);
+app.use('/bs'); //Blind signature
 
 
 //Make app listen on port 3000
