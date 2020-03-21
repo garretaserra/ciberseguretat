@@ -13,7 +13,8 @@ exports.sendMessagePost = async function(req, res) {
 };
 
 exports.getPublicKey = async function(req, res) {
-    let n = bigConv.bufToHex(bigConv.bigintToBuf(crypto.get().publicKey.n));
-    let e = bigConv.bufToHex(bigConv.bigintToBuf(crypto.get().publicKey.e)) ;
+    let n = bigConv.bigintToHex(crypto.get().publicKey.n);
+    let e = bigConv.bigintToHex(crypto.get().publicKey.e);
+    console.log("Public Key ", crypto.get().publicKey);
     res.status(200).json({e:e,n:n});
 };
