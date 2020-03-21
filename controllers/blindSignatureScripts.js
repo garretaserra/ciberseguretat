@@ -1,5 +1,11 @@
 'use strict';
 
-exports.blindSignatureSign = async function(req, res) {
+let rsa = require('../rsa');
 
+
+let crypto = new rsa();
+
+exports.blindSignatureSign = async function(req, res) {
+    //TODO: Sign the message received and send it back
+    //crypto.get().sign()
 };
