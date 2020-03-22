@@ -15,7 +15,8 @@ let blindSignatureRouter = require('./routes/blindSignature');
 //Server variable initialization
 let app = express();
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(errorHandler());
 
 app.use('', generalRouter);
