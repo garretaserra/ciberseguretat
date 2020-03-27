@@ -32,13 +32,31 @@ module.exports = app;
 
 // Socket initialisation
 let io = socketIO(server);
+let userList = [];
 io.on('connection', (socket) => {
-    console.log('user connected');
-    socket.on('login', socketScripts.login);
-    socket.on('getConnected', socketScripts.getConnected);
-    socket.on('disconnect', socketScripts.disconnect);
+    socket.on('login', (username)=>{
+        userList.push({username: username, id: socket.id});
+        console.log(username, ' has logged in')
+        io.emit('userList', JSON.stringify(userList));
+    });
+
+    socket.on('disconnect', (reason)=>{
+        // Remove user from list
+        userList = userList.filter((user)=>{
+            if(user.id !== socket.id) {
+                console.log('User ', user.username, ' disconnected');
+                return user;
+            }
+        });
+        // Update list to users
+        io.emit('userList', JSON.stringify(userList));
+    });
+
+    socket.on('proxy', (destination, message)=>{
+        console.log('proxy', destination, message);
+        io.to(destination).emit('proxy', message);
+    })
 });
-exports.io = io;
 
 //Mongo database connection
 // mongoose.connect("mongodb://localhost:27017/erasmus",{
