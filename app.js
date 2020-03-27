@@ -8,6 +8,7 @@ let bodyParser = require('body-parser');
 let cors = require('cors');
 let errorHandler = require('errorhandler');
 let myRsa = require('my_rsa');
+let socketScripts = require('./sockets/socketScripts');
 
 //Import routes
 let testRouter = require('./routes/test');
@@ -27,14 +28,17 @@ app.use('/test', testRouter);
 //Make app listen on port 3000
 const server = app.listen(port);
 console.log('Server listening on port 3000');
+module.exports = app;
 
 // Socket initialisation
 let io = socketIO(server);
 io.on('connection', (socket) => {
     console.log('user connected');
+    socket.on('login', socketScripts.login);
+    socket.on('getConnected', socketScripts.getConnected);
+    socket.on('disconnect', socketScripts.disconnect);
 });
-
-module.exports = app;
+exports.io = io;
 
 //Mongo database connection
 // mongoose.connect("mongodb://localhost:27017/erasmus",{
