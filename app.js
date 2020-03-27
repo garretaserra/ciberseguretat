@@ -1,6 +1,8 @@
 'use strict';
 //Import libraries
 let express = require('express');
+let http = require('http');
+let socketIO = require('socket.io');
 let mongoose = require('mongoose');
 let bodyParser = require('body-parser');
 let cors = require('cors');
@@ -12,6 +14,7 @@ let testRouter = require('./routes/test');
 let generalRouter = require('./routes/general');
 
 //Server variable initialization
+const port = 3000;
 let app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,8 +25,15 @@ app.use('', generalRouter);
 app.use('/test', testRouter);
 
 //Make app listen on port 3000
-app.listen(3000);
+const server = app.listen(port);
 console.log('Server listening on port 3000');
+
+// Socket initialisation
+let io = socketIO(server);
+io.on('connection', (socket) => {
+    console.log('user connected');
+});
+
 module.exports = app;
 
 //Mongo database connection

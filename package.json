@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/socket.io": "^2.1.4",
     "bigint-conversion": "^2.1.1",
     "bigint-crypto-utils": "^2.4.7",
     "body-parser": "latest",
@@ -16,7 +17,8 @@
     "errorhandler": "latest",
     "express": "^4.17.1",
     "mongoose": "latest",
-    "my_rsa": "file:../RSA"
+    "my_rsa": "file:../RSA",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.5"
