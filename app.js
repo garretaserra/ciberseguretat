@@ -53,12 +53,18 @@ io.on('connection', (socket) => {
     });
 
     socket.on('proxy', (destination, message)=>{
-        console.log('proxy', destination, message);
         io.to(destination).emit('proxy', message);
     });
 
     socket.on('publishNoRepudiation', (message)=>{
         //TODO: Reformat message
+
+        message.messageType = 'noRepudiation4';
+        message.body.originator = message.body.origin;
+        message.body.origin = 'TTP';
+
+        message.signature = 'Signature of TTP';
+
        io.emit('publish', message);
     });
 });
