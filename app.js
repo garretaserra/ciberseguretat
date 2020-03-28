@@ -34,8 +34,8 @@ module.exports = app;
 let io = socketIO(server);
 let userList = [];
 io.on('connection', (socket) => {
-    socket.on('login', (username)=>{
-        userList.push({username: username, id: socket.id});
+    socket.on('login', (username, publicKey)=>{
+        userList.push({username: username, id: socket.id, publicKey: publicKey});
         console.log(username, ' has logged in')
         io.emit('userList', JSON.stringify(userList));
     });
@@ -55,7 +55,12 @@ io.on('connection', (socket) => {
     socket.on('proxy', (destination, message)=>{
         console.log('proxy', destination, message);
         io.to(destination).emit('proxy', message);
-    })
+    });
+
+    socket.on('publishNoRepudiation', (message)=>{
+        //TODO: Reformat message
+       io.emit('publish', message);
+    });
 });
 
 //Mongo database connection
