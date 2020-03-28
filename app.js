@@ -35,8 +35,8 @@ let io = socketIO(server);
 let userList = [];
 io.on('connection', (socket) => {
     socket.on('login', (username, publicKey)=>{
-        userList.push({username: username, id: socket.id, publicKey: publicKey});
-        console.log(username, ' has logged in')
+        userList.push({username: username, id: socket.id, publicKey: JSON.parse(publicKey)});
+        console.log(username, ' has logged in');
         io.emit('userList', JSON.stringify(userList));
     });
 
