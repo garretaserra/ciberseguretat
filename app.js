@@ -63,14 +63,27 @@ io.on('connection', (socket) => {
     });
 
     socket.on('publishNoRepudiation', async (message)=>{
-        //TODO: Reformat message
 
+        // Check signature Pko
+        let hash = await sha.digest(message.body, 'SHA-256');
+        let key;
+        userList.forEach((user) => {
+            if (user.username === message.body.origin)
+                key = user.publicKey;
+        });
+        let sig = myRsa.verify(hexToBigint(message.signature), hexToBigint(key.e), hexToBigint(key.n));
+        if (hash !== bigintToHex(sig)) {
+            console.log('Verification of Pko failed', hash);
+            return;
+        }
+
+        //TODO: Reformat message
         message.messageType = 'noRepudiation4';
-        message.body.originator = message.body.origin;
+        message.body.destination = message.body.origin;
         message.body.origin = 'TTP';
 
         // Sign message
-        const hash = await sha.digest(message.body, 'SHA-256');
+        hash = await sha.digest(message.body, 'SHA-256');
         const signature = crypto.get().sign(hexToBigint(hash));
         message.signature = bigintToHex(signature);
 
