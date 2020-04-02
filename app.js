@@ -9,6 +9,7 @@ let cors = require('cors');
 let errorHandler = require('errorhandler');
 let myRsa = require('my_rsa');
 let socketScripts = require('./sockets/socketScripts');
+let sha = require('object-sha');
 
 //Import routes
 let testRouter = require('./routes/test');
@@ -53,7 +54,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('proxy', (destination, message)=>{
-        io.to(destination).emit('proxy', message);
+
+        async function worker(destination, message) {
+            const hash = await sha.digest(message.body, 'SHA-256');
+            console.log('Received hash: ' + message.signature);
+            console.log('Hash: ' + hash);
+            io.to(destination).emit('proxy', message);
+        }
+
+        worker(destination, message);
     });
 
     socket.on('publishNoRepudiation', (message)=>{
