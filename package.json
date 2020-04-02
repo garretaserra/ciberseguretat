@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "mongoose": "latest",
     "my_rsa": "file:../RSA",
+    "object-sha": "^1.0.5",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {

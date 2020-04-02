@@ -1,5 +1,8 @@
 'use strict';
 //Import libraries
+let bigint_conversion = require('bigint-conversion');
+let bigintToHex = bigint_conversion.bigintToHex;
+let hexToBigint = bigint_conversion.hexToBigint;
 let express = require('express');
 let http = require('http');
 let socketIO = require('socket.io');
@@ -9,6 +12,9 @@ let cors = require('cors');
 let errorHandler = require('errorhandler');
 let myRsa = require('my_rsa');
 let socketScripts = require('./sockets/socketScripts');
+let sha = require('object-sha');
+let rsa = require('./rsa');
+let crypto = new rsa();
 
 //Import routes
 let testRouter = require('./routes/test');
@@ -56,14 +62,17 @@ io.on('connection', (socket) => {
         io.to(destination).emit('proxy', message);
     });
 
-    socket.on('publishNoRepudiation', (message)=>{
+    socket.on('publishNoRepudiation', async (message)=>{
         //TODO: Reformat message
 
         message.messageType = 'noRepudiation4';
         message.body.originator = message.body.origin;
         message.body.origin = 'TTP';
 
-        message.signature = 'Signature of TTP';
+        // Sign message
+        const hash = await sha.digest(message.body, 'SHA-256');
+        const signature = crypto.get().sign(hexToBigint(hash));
+        message.signature = bigintToHex(signature);
 
        io.emit('publish', message);
     });
