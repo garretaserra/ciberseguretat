@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
         const maxDiffTime = 2 * 60 * 1000; // minutes * seconds/minute * milliseconds = maximum allowable time diference in milliseconds
         const calcDiffTime = (localTimestamp - remoteTimestamp);
         if (calcDiffTime < 0 || calcDiffTime > maxDiffTime){
-            console.log('Timestamp error ' + calcDiffTime + ' ms');
+            console.log('Timestamp error ' + calcDiffTime + ' ms.');
             return;
         }
 
