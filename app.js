@@ -77,7 +77,6 @@ io.on('connection', (socket) => {
             return;
         }
 
-        //TODO: Reformat message
         message.messageType = 'noRepudiation4';
         message.body.destination = message.body.origin;
         message.body.origin = 'TTP';
