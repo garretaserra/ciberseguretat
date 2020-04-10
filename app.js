@@ -64,6 +64,16 @@ io.on('connection', (socket) => {
 
     socket.on('publishNoRepudiation', async (message)=>{
 
+        // Check timestamp:
+        const remoteTimestamp = parseInt(message.body.timestamp);
+        const localTimestamp = parseInt(Date.now());
+        const maxDiffTime = 2 * 60 * 1000; // minutes * seconds/minute * milliseconds = maximum allowable time diference in milliseconds
+        const calcDiffTime = (localTimestamp - remoteTimestamp);
+        if (calcDiffTime < 0 || calcDiffTime > maxDiffTime){
+            console.log('Timestamp error ' + calcDiffTime + ' ms.');
+            return;
+        }
+
         // Check signature Pko
         let hash = await sha.digest(message.body, 'SHA-256');
         let key;
