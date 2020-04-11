@@ -6,6 +6,6 @@ let router = express.Router();
 let calculatorScripts = require('../controllers/calculatorScripts');
 
 router.get('/getKey', calculatorScripts.getPublicKey);
-router.post('/decrypt', calculatorScripts.decrypt);
+router.post('/decrypt', calculatorScripts.decryptSum);
 
 module.exports = router;

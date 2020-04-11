@@ -7,11 +7,12 @@ let key = paillier.generateRandomKeysSync(4096);
 exports.getPublicKey = async function(req, res) {
     let n = bigConv.bigintToHex(key.publicKey.n);
     let g = bigConv.bigintToHex(key.publicKey.g);
-    res.status(200).send({n: n, g: g})
+    res.status(200).send({n: n, g: g});
 }
 
-exports.decrypt = async function(req, res) {
-    let encrypted = bigConv.hexToBigint(req.body.encrypted);
+exports.decryptSum = async function(req, res) {
+    let encrypted = bigConv.hexToBigint(req.body.c);
     let result = key.privateKey.decrypt(encrypted);
-    res.status(200).send(result);
+    result = bigConv.bigintToHex(result);
+    res.status(200).send({result: result});
 }
