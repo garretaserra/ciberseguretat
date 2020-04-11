@@ -5,6 +5,6 @@ let router = express.Router();
 
 let aggregatorScripts = require('../controllers/aggregatorScripts');
 
-router.get('/multiply', aggregatorScripts.multiply)
+router.post('/sum', aggregatorScripts.sum)
 
 module.exports = router;
