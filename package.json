@@ -19,6 +19,7 @@
     "mongoose": "latest",
     "my_rsa": "file:../RSA",
     "object-sha": "^1.0.5",
+    "paillier-bigint": "^3.0.4",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {

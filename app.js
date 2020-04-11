@@ -19,6 +19,7 @@ let crypto = new rsa();
 //Import routes
 let testRouter = require('./routes/test');
 let generalRouter = require('./routes/general');
+let calculatorRouter = require('./routes/calculator');
 
 //Server variable initialization
 const port = 3000;
@@ -30,10 +31,24 @@ app.use(errorHandler());
 
 app.use('', generalRouter);
 app.use('/test', testRouter);
+app.use('/calculator', calculatorRouter);
 
 //Make app listen on port 3000
 const server = app.listen(port);
 console.log('Server listening on port 3000');
+module.exports = app;
+
+// Aggregator
+let agg = express();
+agg.use(cors());
+agg.use(bodyParser.json());
+agg.use(bodyParser.text());
+agg.use(errorHandler());
+
+agg.use('', require('./routes/aggregator'))
+
+//Make app listen on port 3000
+agg.listen(port+1);
 module.exports = app;
 
 // Socket initialisation
