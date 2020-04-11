@@ -1,20 +1,11 @@
 'use strict';
 //Import libraries
-let bigint_conversion = require('bigint-conversion');
-let bigintToHex = bigint_conversion.bigintToHex;
-let hexToBigint = bigint_conversion.hexToBigint;
 let express = require('express');
-let http = require('http');
 let socketIO = require('socket.io');
 let mongoose = require('mongoose');
 let bodyParser = require('body-parser');
 let cors = require('cors');
 let errorHandler = require('errorhandler');
-let myRsa = require('my_rsa');
-let socketScripts = require('./sockets/socketScripts');
-let sha = require('object-sha');
-let rsa = require('./rsa');
-let crypto = new rsa();
 
 //Import routes
 let testRouter = require('./routes/test');
@@ -49,71 +40,12 @@ agg.use('', require('./routes/aggregator'))
 
 //Make app listen on port 3000
 agg.listen(port+1);
-module.exports = app;
+module.exports = agg;
 
 // Socket initialisation
 let io = socketIO(server);
-let userList = [];
-io.on('connection', (socket) => {
-    socket.on('login', (username, publicKey)=>{
-        userList.push({username: username, id: socket.id, publicKey: JSON.parse(publicKey)});
-        console.log(username, ' has logged in');
-        io.emit('userList', JSON.stringify(userList));
-    });
-
-    socket.on('disconnect', (reason)=>{
-        // Remove user from list
-        userList = userList.filter((user)=>{
-            if(user.id !== socket.id) {
-                console.log('User ', user.username, ' disconnected');
-                return user;
-            }
-        });
-        // Update list to users
-        io.emit('userList', JSON.stringify(userList));
-    });
-
-    socket.on('proxy', (destination, message)=>{
-        io.to(destination).emit('proxy', message);
-    });
-
-    socket.on('publishNoRepudiation', async (message)=>{
-
-        // Check timestamp:
-        const remoteTimestamp = parseInt(message.body.timestamp);
-        const localTimestamp = parseInt(Date.now());
-        const maxDiffTime = 2 * 60 * 1000; // minutes * seconds/minute * milliseconds = maximum allowable time diference in milliseconds
-        const calcDiffTime = (localTimestamp - remoteTimestamp);
-        if (calcDiffTime < 0 || calcDiffTime > maxDiffTime){
-            console.log('Timestamp error ' + calcDiffTime + ' ms.');
-            return;
-        }
-
-        // Check signature Pko
-        let hash = await sha.digest(message.body, 'SHA-256');
-        let key;
-        userList.forEach((user) => {
-            if (user.username === message.body.origin)
-                key = user.publicKey;
-        });
-        let sig = myRsa.verify(hexToBigint(message.signature), hexToBigint(key.e), hexToBigint(key.n));
-        if (hash !== bigintToHex(sig)) {
-            console.log('Verification of Pko failed', hash);
-            return;
-        }
-
-        message.messageType = 'noRepudiation4';
-        message.body.destination = message.body.origin;
-        message.body.origin = 'TTP';
-
-        // Sign message
-        hash = await sha.digest(message.body, 'SHA-256');
-        const signature = crypto.get().sign(hexToBigint(hash));
-        message.signature = bigintToHex(signature);
-
-       io.emit('publish', message);
-    });
-});
+let socket = require('./sockets/socketScripts')
+socket.socket(io);
 
 //Mongo database connection
 // mongoose.connect("mongodb://localhost:27017/erasmus",{
