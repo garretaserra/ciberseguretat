@@ -52,7 +52,7 @@ exports.socket = function(io) {
                     key = user.publicKey;
             });
             let sig = myRsa.verify(hexToBigint(message.signature), hexToBigint(key.e), hexToBigint(key.n));
-            if (hash !== bigintToHex(sig)) {
+            if (hexToBigint(hash) !== sig) {
                 console.log('Verification of Pko failed', hash);
                 return;
             }
