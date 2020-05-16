@@ -18,13 +18,15 @@ exports.socket = function(io) {
 
         socket.on('disconnect', (reason) => {
             // Remove user from list
-            userList = userList.filter((user) => {
-                if (user.id !== socket.id) {
-                    console.log('User ', user.username, ' disconnected');
-                    return user;
+            let i = 0;
+            while(userList[i]){
+                if(userList[i].id === socket.id){
+                    console.log('User ', userList[i].username, ' disconnected');
+                    userList.splice(i, 1);
+                    break;
                 }
-            });
-            // Update list to users
+                i++;
+            }
             io.emit('userList', JSON.stringify(userList));
         });
 
