@@ -21,7 +21,7 @@
     "my_rsa": "file:../RSA",
     "object-sha": "^1.0.5",
     "paillier-bigint": "^3.0.4",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.5.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.5"
