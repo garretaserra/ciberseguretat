@@ -15,7 +15,7 @@
     "body-parser": "latest",
     "cors": "latest",
     "errorhandler": "latest",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "got": "^10.7.0",
     "mongoose": "latest",
     "my_rsa": "file:../RSA",
